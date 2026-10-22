@@ -4,7 +4,7 @@ A single-file scanner that fingerprints websites and checks whether their PHP is
 
 You give it a list of URLs or subdomains. For each one it works out what the site runs (web server, PHP, CMS, frameworks, CDN or WAF, and so on) and whether the PHP version is affected.
 
-> **Created by kunshdeep**
+> **Created for the community, with help from my buddy Claude AI**
 
 > ⚠️ **Only scan targets you are authorized to test**, for example assets that are in scope for your bug bounty program. Check the program's rules on automated scanning and rate limits before you start.
 
@@ -355,4 +355,4 @@ If the version header and the behavioral check disagree (e.g. the banner says a 
 
 ---
 
-**Created by kunshdeep**
+**Created for the community, with help from my buddy Claude AI**
