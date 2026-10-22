@@ -8,6 +8,25 @@ You give it a list of URLs or subdomains. For each one it works out what the sit
 
 > ⚠️ **Only scan targets you are authorized to test**, for example assets that are in scope for your bug bounty program. Check the program's rules on automated scanning and rate limits before you start.
 
+![Results table: two VULNERABLE, one INDETERMINATE, two PATCHED hosts, with verdict basis and confidence shown per row](examples/gui-3-results.png)
+
+<details>
+<summary><b>More screenshots</b> — the empty state, the form filled in, and a row expanded</summary>
+<br>
+
+All four are real captures against the local test lab in [`lab/`](lab/) — genuine PHP 8.5.11 (unpatched) and 8.5.12 (fixed) containers, not staged data.
+
+| | |
+|---|---|
+| ![Empty state on first load: target box, ports, scope allowlist, scan options](examples/gui-1-empty.png) | ![Form filled in with five local lab targets, scope set, deep probes and active patch oracle both enabled](examples/gui-2-form-filled.png) |
+| Empty state on first load | Form filled in, ready to scan |
+
+![A row expanded: 127.0.0.1:18103 discloses no PHP version at all, yet the active patch oracle actively confirms it VULNERABLE with high confidence, and explains exactly how](examples/gui-4-detail.png)
+
+A row expanded — this is the case where the version is completely hidden and the [active patch oracle](#evidence-for-bug-reports-and-attack-surface-context) settles it anyway: `127.0.0.1:18103` discloses no PHP version, but the behavioral check actively confirms `VULNERABLE` with high confidence.
+
+</details>
+
 ---
 
 ## What it checks
