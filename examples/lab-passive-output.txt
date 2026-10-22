@@ -1,0 +1,6 @@
+$ python3 scanner.py --cli --authorized --deep -t 127.0.0.1:18101 ... -t 127.0.0.1:18105
+VULNERABLE         127.0.0.1:18101                        php=8.5.11                     version         Apache HTTP Server, Debian, PHP
+INDETERMINATE      127.0.0.1:18103                        php=-                          fingerprint     Apache HTTP Server, Debian
+INDETERMINATE      127.0.0.1:18104                        php=-                          fingerprint     Apache HTTP Server, Debian
+INDETERMINATE      127.0.0.1:18105                        php=-                          fingerprint     Apache HTTP Server, Debian
+PATCHED            127.0.0.1:18102                        php=8.5.12                     version         Apache HTTP Server, Debian, PHP

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Scan output people will generate locally — never meant to be committed
+*.evidence.md
+php2shell-scan-*.json
+php2shell-scan-*.csv

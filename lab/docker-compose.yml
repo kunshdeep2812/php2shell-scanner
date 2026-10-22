@@ -1,0 +1,28 @@
+# Local test lab for php2shell-scanner: real PHP builds on both sides of the CVE-2026-109618/109619 fix.
+# Every port is bound to 127.0.0.1 only. Do not change that: some of these containers run an UNPATCHED PHP.
+#
+#   docker compose up -d
+#   python3 ../scanner.py --cli --authorized --deep --oracle \
+#       -t 127.0.0.1:18101 -t 127.0.0.1:18102 -t 127.0.0.1:18103 -t 127.0.0.1:18104 -t 127.0.0.1:18105
+#   docker compose down
+services:
+  a-vuln-visible:        # 8.5.11, version header visible            -> VULNERABLE
+    image: php:8.5.11-apache
+    ports: ["127.0.0.1:18101:80"]
+    volumes: ["./www:/var/www/html:ro"]
+  b-fixed-visible:       # 8.5.12, version header visible            -> PATCHED
+    image: php:8.5.12-apache
+    ports: ["127.0.0.1:18102:80"]
+    volumes: ["./www:/var/www/html:ro"]
+  c-vuln-hidden:         # 8.5.11, expose_php=Off                    -> INDETERMINATE passively, VULNERABLE with --oracle
+    image: php:8.5.11-apache
+    ports: ["127.0.0.1:18103:80"]
+    volumes: ["./www:/var/www/html:ro", "./hidden.ini:/usr/local/etc/php/conf.d/zz.ini:ro"]
+  d-vuln-hidden-noerr:   # 8.5.11, expose_php=Off, display_errors=Off -> INDETERMINATE even with --oracle (no signal)
+    image: php:8.5.11-apache
+    ports: ["127.0.0.1:18104:80"]
+    volumes: ["./www:/var/www/html:ro", "./hidden-noerr.ini:/usr/local/etc/php/conf.d/zz.ini:ro"]
+  e-fixed-hidden:        # 8.5.12, expose_php=Off                    -> INDETERMINATE passively, PATCHED with --oracle
+    image: php:8.5.12-apache
+    ports: ["127.0.0.1:18105:80"]
+    volumes: ["./www:/var/www/html:ro", "./hidden.ini:/usr/local/etc/php/conf.d/zz.ini:ro"]

@@ -1,0 +1,6 @@
+$ python3 scanner.py --cli --authorized --deep --oracle -t 127.0.0.1:18101 ... -t 127.0.0.1:18105
+VULNERABLE         127.0.0.1:18103                        php=hidden                     patch oracle    PHP, Apache HTTP Server, Debian
+VULNERABLE         127.0.0.1:18101                        php=8.5.11                     patch oracle    Apache HTTP Server, Debian, PHP
+INDETERMINATE      127.0.0.1:18104                        php=-                          fingerprint     Apache HTTP Server, Debian
+PATCHED            127.0.0.1:18105                        php=hidden                     patch oracle    PHP, Apache HTTP Server, Debian
+PATCHED            127.0.0.1:18102                        php=8.5.12                     patch oracle    Apache HTTP Server, Debian, PHP

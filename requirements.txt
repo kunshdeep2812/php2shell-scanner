@@ -1,0 +1,3 @@
+# php2shell-scanner has no third-party dependencies — scanner.py uses only the Python standard
+# library (Python 3.8+). This file exists so `pip install -r requirements.txt` and setup.py's
+# dependency step have something to point at, and so future dependencies have an obvious home.
