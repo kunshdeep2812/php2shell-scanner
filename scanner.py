@@ -1588,7 +1588,7 @@ def start_job(body):
 
 HTML = r"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PHP2Shell Exposure Scanner</title>
+<title>PHP2Shell Scanner</title>
 <style>
 :root{--bg:#f6f7f9;--card:#fff;--fg:#1c2025;--mut:#667085;--line:#e3e6eb;--acc:#2f5bea;--red:#c62828;--org:#d9660b;--amb:#a16207;--grn:#18794e;--gry:#6b7280}
 @media (prefers-color-scheme:dark){:root{--bg:#0f1115;--card:#181b21;--fg:#e6e8ec;--mut:#9aa3b2;--line:#2a2f38;--acc:#6f90ff;--red:#ff6b6b;--org:#ffa04d;--amb:#e5b84b;--grn:#4cc38a;--gry:#8b93a1}}
@@ -1614,7 +1614,7 @@ th{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.03em
 .det td{background:var(--bg)}.det pre{margin:0;white-space:pre-wrap;word-break:break-word;font:12px ui-monospace,Menlo,monospace}
 .mono{font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all}.empty{color:var(--mut);padding:30px;text-align:center}.sub{display:block;color:var(--mut);font-size:11px;margin-top:3px}
 </style></head><body>
-<header><h1>PHP2Shell Exposure Scanner</h1>
+<header><h1>PHP2Shell Scanner</h1>
 <p>Technology fingerprinting + triage for CVE-2026-109618 / CVE-2026-109619. Never sends the exploit triggers.</p></header>
 <main>
 <section class="card">

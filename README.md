@@ -1,10 +1,8 @@
-# PHP2Shell Exposure Scanner
+# PHP2Shell Scanner
 
 A single-file scanner that fingerprints websites and checks whether their PHP is affected by **PHP2Shell**. PHP2Shell is a pair of critical unauthenticated RCE bugs in PHP, CVE-2026-109618 and CVE-2026-109619.
 
 You give it a list of URLs or subdomains. For each one it works out what the site runs (web server, PHP, CMS, frameworks, CDN or WAF, and so on) and whether the PHP version is affected.
-
-> **Created for the community, with help from my buddy Claude AI**
 
 > ⚠️ **Only scan targets you are authorized to test**, for example assets that are in scope for your bug bounty program. Check the program's rules on automated scanning and rate limits before you start.
 
@@ -377,7 +375,3 @@ Yes — MIT licensed, open source, no account or API key needed. [github.com/kun
 - [Datadog Security Labs: PHP2Shell analysis](https://securitylabs.datadoghq.com/articles/php2shell-critical-vulnerabilities-in-php/)
 - [Tenable FAQ](https://www.tenable.com/blog/php2shell-cve-2026-109618-cve-2026-109619-frequently-asked-questions-about-critical-php-remote)
 - [Ubuntu USN-8948-1](https://ubuntu.com/security/notices/USN-8948-1) · [USN-8948-2](https://ubuntu.com/security/notices/USN-8948-2)
-
----
-
-**Created for the community, with help from my buddy Claude AI**
