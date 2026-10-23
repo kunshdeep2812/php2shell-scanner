@@ -346,6 +346,31 @@ If the version header and the behavioral check disagree (e.g. the banner says a 
 
 ---
 
+## FAQ
+
+**What is PHP2Shell?**
+PHP2Shell is the nickname for CVE-2026-109618 and CVE-2026-109619, two critical unauthenticated remote code execution vulnerabilities in PHP core (CVSS v4.0 9.2), disclosed and patched on 21 October 2026. See [What it checks](#what-it-checks) above.
+
+**Is my PHP server vulnerable to PHP2Shell?**
+If your PHP version is below the first fixed release for its branch — 8.2.35, 8.3.36, 8.4.27 or 8.5.12 — yes. If the version is hidden (a common hardening setting), this scanner's active patch oracle can still settle it without exploiting anything; see [Does it work when the version is hidden?](#does-it-work-when-the-version-is-hidden)
+
+**How do I check if I'm affected by CVE-2026-109618 or CVE-2026-109619?**
+Run `php -v` or your package manager on the host, or point this scanner at the site: `python3 scanner.py --cli --authorized -t yourdomain.com --deep --oracle`.
+
+**Is PHP2Shell actually being exploited in the wild?**
+Yes — multiple vendors (Amazon, watchTowr, Cloudflare, Hadrian) reported active exploitation, including attempts observed before the public patch shipped. See the [References](#references) below.
+
+**How do I fix CVE-2026-109618 and CVE-2026-109619?**
+Upgrade PHP to 8.2.35, 8.3.36, 8.4.27 or 8.5.12 (or your distro's equivalent patched package) and restart every PHP worker. See [Fixing an affected server](#fixing-an-affected-server).
+
+**Does this scanner actually exploit the vulnerability?**
+No. It never triggers the memory-corruption bug. Verdicts come from the PHP version and, optionally, a harmless behavioral check — never from a working exploit. See [Safety built in](#safety-built-in).
+
+**Is php2shell-scanner free?**
+Yes — MIT licensed, open source, no account or API key needed. [github.com/kunshdeep2812/php2shell-scanner](https://github.com/kunshdeep2812/php2shell-scanner).
+
+---
+
 ## References
 
 - [CERT-EU advisory 2026-018](https://cert.europa.eu/publications/security-advisories/2026-018/)
