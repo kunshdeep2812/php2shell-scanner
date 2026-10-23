@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHP2Shell Scanner — Check CVE-2026-109618 / CVE-2026-109619</title>
+<meta name="description" content="Check if your server is vulnerable to PHP2Shell (CVE-2026-109618 & CVE-2026-109619). Free, open-source scanner with GUI + CLI, no dependencies, works even when the PHP version is hidden.">
+<link rel="canonical" href="https://kunshdeep2812.github.io/php2shell-scanner/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="PHP2Shell Scanner — Check CVE-2026-109618 / CVE-2026-109619">
+<meta property="og:description" content="Free, open-source scanner that checks whether your server is vulnerable to PHP2Shell — even when the PHP version is hidden.">
+<meta property="og:url" content="https://kunshdeep2812.github.io/php2shell-scanner/">
+<meta property="og:image" content="https://raw.githubusercontent.com/kunshdeep2812/php2shell-scanner/main/blog/php2shell-og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PHP2Shell Scanner — Check CVE-2026-109618 / CVE-2026-109619">
+<meta name="twitter:description" content="Free, open-source scanner that checks whether your server is vulnerable to PHP2Shell — even when the PHP version is hidden.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/kunshdeep2812/php2shell-scanner/main/blog/php2shell-og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "php2shell-scanner",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "description": "Free, open-source scanner that fingerprints websites and checks whether their PHP is affected by PHP2Shell (CVE-2026-109618 and CVE-2026-109619), a pair of critical unauthenticated remote code execution vulnerabilities in PHP core.",
+  "url": "https://kunshdeep2812.github.io/php2shell-scanner/",
+  "downloadUrl": "https://github.com/kunshdeep2812/php2shell-scanner",
+  "codeRepository": "https://github.com/kunshdeep2812/php2shell-scanner",
+  "license": "https://github.com/kunshdeep2812/php2shell-scanner/blob/main/LICENSE",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "kunshdeep" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What is PHP2Shell?",
+     "acceptedAnswer": {"@type": "Answer", "text": "PHP2Shell is the nickname for CVE-2026-109618 and CVE-2026-109619, two critical unauthenticated remote code execution vulnerabilities in PHP core (CVSS v4.0 9.2), disclosed and patched on 21 October 2026."}},
+    {"@type": "Question", "name": "Is my PHP server vulnerable to PHP2Shell?",
+     "acceptedAnswer": {"@type": "Answer", "text": "If your PHP version is below the first fixed release for its branch — 8.2.35, 8.3.36, 8.4.27, or 8.5.12 — yes. If the version is hidden, this scanner's active patch oracle can still settle it without exploiting anything."}},
+    {"@type": "Question", "name": "How do I check if I'm affected by CVE-2026-109618 or CVE-2026-109619?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Run php -v or your package manager on the host, or point php2shell-scanner at the site: python3 scanner.py --cli --authorized -t yourdomain.com --deep --oracle"}},
+    {"@type": "Question", "name": "Is PHP2Shell actually being exploited in the wild?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes — multiple vendors including Amazon, watchTowr, Cloudflare, and Hadrian reported active exploitation, including attempts observed before the public patch shipped."}},
+    {"@type": "Question", "name": "How do I fix CVE-2026-109618 and CVE-2026-109619?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Upgrade PHP to 8.2.35, 8.3.36, 8.4.27, or 8.5.12 (or your distro's equivalent patched package) and restart every PHP worker."}},
+    {"@type": "Question", "name": "Does php2shell-scanner actually exploit the vulnerability?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. It never triggers the memory-corruption bug. Verdicts come from the PHP version and, optionally, a harmless behavioral check — never from a working exploit."}},
+    {"@type": "Question", "name": "Is php2shell-scanner free?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes — MIT licensed, open source, no account or API key needed."}}
+  ]
+}
+</script>
+
+<style>
+  :root{--bg:#f6f7f9;--card:#fff;--fg:#1c2025;--mut:#667085;--line:#e3e6eb;--acc:#6f90ff;--red:#c62828;--org:#d9660b;--grn:#18794e}
+  @media (prefers-color-scheme:dark){:root{--bg:#0b0d11;--card:#141720;--fg:#e6e8ec;--mut:#9aa3b2;--line:#262b36;--acc:#6f90ff;--red:#ff6b6b;--org:#ffa04d;--grn:#4cc38a}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+  header.hero{padding:64px 0 40px;text-align:center}
+  .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+  .badge{font:600 13px/1 ui-monospace,Menlo,monospace;padding:7px 14px;border-radius:999px;border:1px solid var(--line)}
+  .badge.red{color:var(--red);border-color:var(--red)}
+  .badge.org{color:var(--org);border-color:var(--org)}
+  .badge.grn{color:var(--grn);border-color:var(--grn)}
+  h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 16px;letter-spacing:-0.02em}
+  .lede{font-size:19px;color:var(--mut);max-width:620px;margin:0 auto 32px}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 24px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px}
+  .btn.primary{background:var(--acc);color:#fff}
+  .btn.ghost{border:1px solid var(--line);color:var(--fg)}
+  section{padding:36px 0;border-top:1px solid var(--line)}
+  h2{font-size:24px;margin:0 0 6px}
+  .sub{color:var(--mut);margin:0 0 22px}
+  img{max-width:100%;border-radius:10px;border:1px solid var(--line);display:block;margin:0 auto}
+  figcaption{text-align:center;color:var(--mut);font-size:14px;margin-top:10px}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto;font:13px/1.6 ui-monospace,Menlo,monospace}
+  code{font-family:ui-monospace,Menlo,monospace}
+  :not(pre)>code{background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.9em}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+  .card b{display:block;margin-bottom:6px}
+  .faq dt{font-weight:600;margin-top:18px}
+  .faq dd{margin:6px 0 0;color:var(--mut)}
+  footer{padding:40px 0 60px;text-align:center;color:var(--mut);font-size:14px}
+  footer a{color:var(--acc)}
+  @media(max-width:600px){.grid{grid-template-columns:1fr}.cta{flex-direction:column}.btn{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="badges">
+    <span class="badge red">CVE-2026-109618</span>
+    <span class="badge red">CVE-2026-109619</span>
+    <span class="badge org">CVSS 9.2</span>
+    <span class="badge grn">Free &amp; Open Source</span>
+  </div>
+  <h1>Is your server vulnerable to PHP2Shell?</h1>
+  <p class="lede">A free, open-source scanner that checks whether your PHP is affected by CVE-2026-109618 and CVE-2026-109619 — two critical, unauthenticated remote code execution bugs in PHP core. Works even when the PHP version is hidden.</p>
+  <div class="cta">
+    <a class="btn primary" href="https://github.com/kunshdeep2812/php2shell-scanner">View on GitHub →</a>
+    <a class="btn ghost" href="#quick-start">Quick start</a>
+  </div>
+</header>
+
+<section id="what-is-it">
+  <h2>What is PHP2Shell?</h2>
+  <p class="sub">The pair of bugs the whole PHP ecosystem patched on 21 October 2026.</p>
+  <table>
+    <tr><th></th><th>CVE-2026-109618</th><th>CVE-2026-109619</th></tr>
+    <tr><td><b>Type</b></td><td>Out-of-memory memory corruption</td><td>Use-after-free</td></tr>
+    <tr><td><b>Severity</b></td><td>CVSS v4.0 9.2</td><td>CVSS v4.0 9.2</td></tr>
+    <tr><td><b>Auth required</b></td><td>None</td><td>None</td></tr>
+    <tr><td><b>Fixed in</b></td><td colspan="2">PHP 8.2.35, 8.3.36, 8.4.27, 8.5.12</td></tr>
+  </table>
+  <p>Both bugs live in PHP core itself — not in any application running on top of it. That means login pages, WAF rules and <code>.htaccess</code> deny-lists don't help, since PHP processes the request before any application code runs. It's affected every PHP install from 5.4.0 up to the fixed releases; 7.4, 8.0 and 8.1 only received source backports, not official releases.</p>
+</section>
+
+<section id="what-it-does">
+  <h2>What the scanner does</h2>
+  <p class="sub">No account, no install beyond Python. GUI and command line, both free.</p>
+  <img src="https://raw.githubusercontent.com/kunshdeep2812/php2shell-scanner/main/examples/gui-3-results.png" alt="php2shell-scanner results table showing a mix of VULNERABLE, INDETERMINATE and PATCHED hosts">
+  <figcaption>Scan results: verdict, basis, confidence and detected stack per host.</figcaption>
+  <div class="grid">
+    <div class="card"><b>Fingerprints the stack</b>Web server, PHP, CMS, framework, CDN/WAF — ~5,800 technology signatures plus ~70 built-in checks.</div>
+    <div class="card"><b>Grades the PHP version</b>Against the real fixed-release table, with backport awareness for Ubuntu, Debian, RHEL-family and deb.sury.org builds.</div>
+    <div class="card"><b>Settles hidden versions</b>An opt-in active patch oracle reads PHP's own behavior — never triggers the actual bug.</div>
+    <div class="card"><b>Writes real evidence</b>A Markdown report with the exact request, response, and a <code>curl</code> to reproduce it.</div>
+  </div>
+  <img src="https://raw.githubusercontent.com/kunshdeep2812/php2shell-scanner/main/examples/gui-4-detail.png" alt="A row expanded: host discloses no PHP version at all, yet the active oracle confirms VULNERABLE with high confidence">
+  <figcaption>No PHP version disclosed here, yet the active oracle still confirms VULNERABLE.</figcaption>
+</section>
+
+<section id="quick-start">
+  <h2>Quick start</h2>
+  <p class="sub">One-click setup, whatever Python you already have (3.8+, or it'll help you get there).</p>
+  <pre><code>git clone https://github.com/kunshdeep2812/php2shell-scanner.git
+cd php2shell-scanner
+python3 setup.py</code></pre>
+  <p>Then either open the GUI (<code>python3 scanner.py</code>) or scan from the command line:</p>
+  <pre><code>python3 scanner.py --cli --authorized -t yourdomain.com --deep --oracle</code></pre>
+  <p>Full docs, options, and safety notes are in the <a href="https://github.com/kunshdeep2812/php2shell-scanner#readme">README</a>.</p>
+</section>
+
+<section id="faq" class="faq">
+  <h2>FAQ</h2>
+  <dl>
+    <dt>What is PHP2Shell?</dt>
+    <dd>PHP2Shell is the nickname for CVE-2026-109618 and CVE-2026-109619, two critical unauthenticated remote code execution vulnerabilities in PHP core (CVSS v4.0 9.2), disclosed and patched on 21 October 2026.</dd>
+
+    <dt>Is my PHP server vulnerable to PHP2Shell?</dt>
+    <dd>If your PHP version is below the first fixed release for its branch — 8.2.35, 8.3.36, 8.4.27, or 8.5.12 — yes. If the version is hidden, this scanner's active patch oracle can still settle it without exploiting anything.</dd>
+
+    <dt>How do I check if I'm affected by CVE-2026-109618 or CVE-2026-109619?</dt>
+    <dd>Run <code>php -v</code> or your package manager on the host, or point php2shell-scanner at the site: <code>python3 scanner.py --cli --authorized -t yourdomain.com --deep --oracle</code></dd>
+
+    <dt>Is PHP2Shell actually being exploited in the wild?</dt>
+    <dd>Yes — multiple vendors including Amazon, watchTowr, Cloudflare, and Hadrian reported active exploitation, including attempts observed before the public patch shipped.</dd>
+
+    <dt>How do I fix CVE-2026-109618 and CVE-2026-109619?</dt>
+    <dd>Upgrade PHP to 8.2.35, 8.3.36, 8.4.27, or 8.5.12 (or your distro's equivalent patched package) and restart every PHP worker.</dd>
+
+    <dt>Does php2shell-scanner actually exploit the vulnerability?</dt>
+    <dd>No. It never triggers the memory-corruption bug. Verdicts come from the PHP version and, optionally, a harmless behavioral check — never from a working exploit.</dd>
+
+    <dt>Is php2shell-scanner free?</dt>
+    <dd>Yes — MIT licensed, open source, no account or API key needed.</dd>
+  </dl>
+</section>
+
+<footer>
+  <p>Built for the community, with help from Claude AI. MIT licensed.</p>
+  <p><a href="https://github.com/kunshdeep2812/php2shell-scanner">GitHub repo</a> · <a href="https://kunshdeep.in/posts/php2shell-explained-cve-2026-109618-cve-2026-109619">Full writeup on the blog</a></p>
+</footer>
+
+</div>
+</body>
+</html>
